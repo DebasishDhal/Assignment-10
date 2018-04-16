@@ -1,0 +1,98 @@
+#include<iostream>
+using namespace std;
+    class heap{
+        public:
+        int arr[1000];                  //array for the heap.
+        int i;                          //size of heap or size of array/
+        void insertx(int data);         //insert a number.
+        void deletex(int data);         //delete a number.
+        void display();                 //display the whole heap.
+                heap()                  //just a constructor for the class.
+                {
+                    i=0;                //initializes the size of array to zero.
+                }
+    };
+    void heap::insertx(int data)        //insertion function description.
+    {
+        arr[i]=data;                    //data is assigned in the just next slot of the last node.
+        int k=i;                        
+        int temp=0;                     
+        while(k!=0)                     //this is to re establish the property of the heap if it got distorted by addition of new element.
+            {
+                if(arr[k]>arr[(k-1)/2]) //comparision between a node's data and it's parent node's data.
+                {                       //if a node's data is greater than its parent node's data,, then swapping occurs.
+                 temp=arr[k];
+                 arr[k]=arr[(k-1)/2];
+                 arr[(k-1)/2]=temp;
+                }
+                k=(k-1)/2;              //parent of the node is the new node.
+            }                           //this all continues till the root node.
+        i++;
+    }
+    void heap::display()                // display function.
+        {
+            for(int k=0;k<i;k++)        
+            {
+                cout<<arr[k];
+                cout<<" ";
+            }
+        }
+    void heap::deletex(int data)        //delete function
+      {
+        int pos=0;
+        int temp=0;
+        while(arr[pos]!=data)           //finding the element to be deleted.
+             {
+                pos++;
+                if(pos>=i)
+                {
+                  cout<<"Element is not there"<<endl;
+                  return;
+                }
+             }
+      arr[pos]=arr[i-1];                //the wannabe deleted data is replaced by the data of the last node of  the heap.
+      i--;                              //decreasing the esize of the array by 1.
+      int k=pos;            
+      while(k<i)                         //cycle will continue as long as there k is within the size of the array.
+        {
+           if(arr[2*k+1]>arr[2*k+2])    
+           {     
+                    if(arr[2*k+1]>arr[k])
+                    {
+                        temp=arr[2*k+1];
+                        arr[2*k+1]=arr[k];
+                        arr[k]=temp;
+                        k=2*k+1;
+                    }
+             }
+             else
+                {   
+                    if(arr[2*k+2]>arr[k])
+                    {
+                        temp=arr[2*k+2];
+                        arr[2*k+2]=arr[k];
+                        arr[k]=temp;
+                        k=2*k+2;
+                    }
+                }
+       }
+    }
+    int main()
+        {
+            heap h;
+            h.insertx(231);
+            h.insertx(240);
+            h.insertx(8999);
+            h.insertx(23);
+            h.insertx(87);
+            h.insertx(877);
+            h.insertx(7);
+            h.insertx(8);
+            h.insertx(85);
+            h.insertx(6);
+            h.insertx(253);
+            h.display();
+            h.deletex(231);
+            h.display();
+            return 0;
+        }
